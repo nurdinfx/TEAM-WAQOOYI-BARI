@@ -15,12 +15,18 @@ import { deepMergeContent, enrichContent, validateContent } from "./content-util
 function getSupabaseClient() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  if (!url || !key || url.includes("placeholder")) return null;
+  if (!url || !key || key.includes("placeholder") || key.includes("your_service")) return null;
   try {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const { createClient } = require("@supabase/supabase-js");
     return createClient(url, key, {
       auth: { autoRefreshToken: false, persistSession: false },
+      global: {
+        headers: {
+          // Support both legacy eyJ keys and new sb_ keys
+          ...(key.startsWith("sb_") ? { "x-api-key": key } : {}),
+        },
+      },
     });
   } catch {
     return null;
