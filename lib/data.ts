@@ -1,0 +1,355 @@
+import type {
+  Leader,
+  Member,
+  Book,
+  Event,
+  GalleryItem,
+  Article,
+  Sponsor,
+  SiteSettings,
+} from "./types";
+
+export const siteSettings: SiteSettings = {
+  heroTitle: "WAQOOYI BARI TEAM",
+  heroSubtitle: "Bulsho ku mideysan Akhriska iyo Qoraalka",
+  heroDescription:
+    "Waa madal lagu akhriyo, lagu qoro, laguna kobciyo aqoon, fikir iyo horumar bulsho.",
+  heroBadge: "AKHRIS • QOR • HORUMAR",
+  fundraisingGoal: 10000,
+  fundraisingProgress: 2350,
+  stats: {
+    members: 1250,
+    books: 350,
+    events: 85,
+    awards: 15,
+  },
+  contact: {
+    whatsapp: "+252612345678",
+    facebook: "https://facebook.com/waqooyibari",
+    email: "info@waqooyibari.com",
+    mapLat: 9.5616,
+    mapLng: 44.0650,
+  },
+  about:
+    "Waqooyi Bari Team waa bulsho ku mideysan akhriska iyo qoraalka, kaas oo ka shaqeeya horumarinta dhaqanka akhriska iyo qoraalka ee gobolka Waqooyi Bari. Tan iyo markii la aasaasay, kooxdu waxay qabatay munaasabado badan oo akhris, dood, iyo qoraal ah, waxayna ku dhiirrigelisay akhriska buugaag kala duwan.",
+  autoSyncStats: true,
+};
+
+export const leaders: Leader[] = [
+  {
+    id: "1",
+    name: "Ahmed Hassan",
+    position: "Guddoomiye",
+    bio: "Aasaasaha iyo guddoomiyaha Waqooyi Bari Team, wuxuu leeyahay khibrad 10+ sano oo akhris iyo qoraal ah.",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    social: { facebook: "#", linkedin: "#" },
+  },
+  {
+    id: "2",
+    name: "Fatima Ali",
+    position: "Xoghayaha",
+    bio: "Xoghayaha kooxda, waxay maamushaa dhammaan hawlaha maalinlaha ah iyo qorsheynta munaasabadaha.",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
+    social: { facebook: "#", twitter: "#" },
+  },
+  {
+    id: "3",
+    name: "Mohamed Omar",
+    position: "Maaliyadda",
+    bio: "Maamulaha maaliyadda kooxda, wuxuu hubinayaa in dhammaan hawlaha maaliyadeed ay socdaan si habsami leh.",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
+    social: { linkedin: "#" },
+  },
+  {
+    id: "4",
+    name: "Amina Yusuf",
+    position: "Agaasimaha Buugaagta",
+    bio: "Waxay maamushaa maktabadda kooxda iyo doorashada buugaagta la akhriyo bil kasta.",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop",
+    social: { facebook: "#" },
+  },
+];
+
+export const members: Member[] = [
+  {
+    id: "1",
+    name: "Hassan Ibrahim",
+    role: "Akhris",
+    level: "Xubin Firfircoon",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop",
+  },
+  {
+    id: "2",
+    name: "Khadija Mohamed",
+    role: "Qoraal",
+    level: "Xubin Firfircoon",
+    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&h=300&fit=crop",
+  },
+  {
+    id: "3",
+    name: "Omar Said",
+    role: "Akhris & Qoraal",
+    level: "Xubin Sare",
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=300&fit=crop",
+  },
+  {
+    id: "4",
+    name: "Maryam Hassan",
+    role: "Akhris",
+    level: "Xubin Firfircoon",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&h=300&fit=crop",
+  },
+  {
+    id: "5",
+    name: "Yusuf Ahmed",
+    role: "Qoraal",
+    level: "Xubin",
+    image: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=300&h=300&fit=crop",
+  },
+  {
+    id: "6",
+    name: "Halima Abdi",
+    role: "Akhris",
+    level: "Xubin Firfircoon",
+    image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&h=300&fit=crop",
+  },
+  {
+    id: "7",
+    name: "Abdi Rahman",
+    role: "Qoraal",
+    level: "Xubin Sare",
+    image: "https://images.unsplash.com/photo-1463453091185-61582044d556?w=300&h=300&fit=crop",
+  },
+  {
+    id: "8",
+    name: "Sahra Mohamed",
+    role: "Akhris & Qoraal",
+    level: "Xubin Firfircoon",
+    image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&h=300&fit=crop",
+  },
+];
+
+export const books: Book[] = [
+  {
+    id: "1",
+    title: "Things Fall Apart",
+    author: "Chinua Achebe",
+    cover: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=400&fit=crop",
+    dateRead: "2025-11-15",
+    rating: 5,
+    summary: "Sheeko ku saabsan dhaqanka iyo isbeddelka bulshada Afrika.",
+    category: "Fiction",
+  },
+  {
+    id: "2",
+    title: "The Alchemist",
+    author: "Paulo Coelho",
+    cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300&h=400&fit=crop",
+    dateRead: "2025-10-20",
+    rating: 4,
+    summary: "Sheeko ku saabsan raadinta himilooyinka iyo macnaha nolosha.",
+    category: "Fiction",
+  },
+  {
+    id: "3",
+    title: "Educated",
+    author: "Tara Westover",
+    cover: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=300&h=400&fit=crop",
+    dateRead: "2025-09-10",
+    rating: 5,
+    summary: "Sheeko dhab ah oo ku saabsan awoodda waxbarashada.",
+    category: "Biography",
+  },
+  {
+    id: "4",
+    title: "Sapiens",
+    author: "Yuval Noah Harari",
+    cover: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=400&fit=crop",
+    dateRead: "2025-08-05",
+    rating: 5,
+    summary: "Taariikhda aadanaha iyo horumarka bulshada.",
+    category: "History",
+  },
+  {
+    id: "5",
+    title: "Atomic Habits",
+    author: "James Clear",
+    cover: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=300&h=400&fit=crop",
+    dateRead: "2025-07-22",
+    rating: 4,
+    summary: "Habka lagu dhiso caadooyin wanaagsan oo waarta.",
+    category: "Self-Help",
+  },
+  {
+    id: "6",
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald",
+    cover: "https://images.unsplash.com/photo-1516979187450-60a1fa598ee9?w=300&h=400&fit=crop",
+    dateRead: "2025-06-18",
+    rating: 4,
+    summary: "Sheeko caan ah oo ku saabsan riyada Mareykanka.",
+    category: "Fiction",
+  },
+];
+
+export const events: Event[] = [
+  {
+    id: "1",
+    title: "Kulanka Akhriska Bisha",
+    date: "2026-03-15",
+    time: "14:00",
+    location: "Xarunta Waqooyi Bari",
+    description: "Kulanka akhriska bisha oo dhan xubnaha ay ka wada hadlaan buugga la akhriyey.",
+    isUpcoming: true,
+  },
+  {
+    id: "2",
+    title: "Dood: Horumarka Qoraalka",
+    date: "2026-02-28",
+    time: "16:00",
+    location: "Maktabadda Garowe",
+    description: "Dood furan oo ku saabsan horumarka qoraalka Soomaaliga.",
+    isUpcoming: true,
+  },
+  {
+    id: "3",
+    title: "Abaalmarinta Akhriska 2025",
+    date: "2025-12-20",
+    time: "18:00",
+    location: "Hotel Peace",
+    description: "Munaasabadda abaalmarinta akhriska sanadlaha ah.",
+    isUpcoming: false,
+  },
+  {
+    id: "4",
+    title: "Workshop Qoraalka",
+    date: "2025-11-10",
+    time: "10:00",
+    location: "Xarunta Waqooyi Bari",
+    description: "Tababar qoraalka sheekooyinka gaagaaban.",
+    isUpcoming: false,
+  },
+  {
+    id: "5",
+    title: "Kulanka Buugga: Sapiens",
+    date: "2025-10-05",
+    time: "15:00",
+    location: "Maktabadda Garowe",
+    description: "Dood ku saabsan buugga Sapiens ee Yuval Noah Harari.",
+    isUpcoming: false,
+  },
+];
+
+export const galleryItems: GalleryItem[] = [
+  {
+    id: "1",
+    type: "photo",
+    src: "https://images.unsplash.com/photo-1524995998263-73d30ad73841?w=600&h=400&fit=crop",
+    caption: "Kulanka Akhriska Oktoobar",
+    date: "2025-10-05",
+  },
+  {
+    id: "2",
+    type: "photo",
+    src: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=400&fit=crop",
+    caption: "Maktabadda Kooxda",
+    date: "2025-09-20",
+  },
+  {
+    id: "3",
+    type: "photo",
+    src: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=400&fit=crop",
+    caption: "Buugaagta La Akhriyey",
+    date: "2025-09-15",
+  },
+  {
+    id: "4",
+    type: "photo",
+    src: "https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&h=400&fit=crop",
+    caption: "Abaalmarinta Akhriska",
+    date: "2025-08-10",
+  },
+  {
+    id: "5",
+    type: "photo",
+    src: "https://images.unsplash.com/photo-1456513080850-41cc740f2589?w=600&h=400&fit=crop",
+    caption: "Workshop Qoraalka",
+    date: "2025-07-22",
+  },
+  {
+    id: "6",
+    type: "photo",
+    src: "https://images.unsplash.com/photo-1497633762268-e04d63fb350b?w=600&h=400&fit=crop",
+    caption: "Dood Furan",
+    date: "2025-06-18",
+  },
+  {
+    id: "7",
+    type: "photo",
+    src: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=600&h=400&fit=crop",
+    caption: "Maktabadda Bulshada",
+    date: "2025-05-30",
+  },
+  {
+    id: "8",
+    type: "photo",
+    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop",
+    caption: "Kulanka Xubnaha",
+    date: "2025-04-15",
+  },
+];
+
+export const articles: Article[] = [
+  {
+    id: "1",
+    title: "Muhiimadda Akhriska Bulshada",
+    author: "Ahmed Hassan",
+    date: "2025-12-01",
+    excerpt: "Akhrisku waa aasaaska horumarka bulsho kasta. Waa habka ugu wanaagsan ee lagu kobciyo fikirka iyo aqoon.",
+    content: "Akhrisku waa aasaaska horumarka bulsho kasta...",
+    cover: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=400&fit=crop",
+    published: true,
+  },
+  {
+    id: "2",
+    title: "Sida Loo Dhiso Koox Akhris",
+    author: "Fatima Ali",
+    date: "2025-11-15",
+    excerpt: "Talooyin ku saabsan sida loo dhiso koox akhris oo firfircoon oo guulaysata.",
+    content: "Dhismaha koox akhris wuxuu u baahan yahay qorshe iyo dadaal...",
+    cover: "https://images.unsplash.com/photo-1524995998263-73d30ad73841?w=600&h=400&fit=crop",
+    published: true,
+  },
+  {
+    id: "3",
+    title: "Qoraalka Soomaaliga: Horumar iyo Caqabado",
+    author: "Mohamed Omar",
+    date: "2025-10-20",
+    excerpt: "Dood ku saabsan horumarka qoraalka Soomaaliga iyo caqabadaha hortaagan.",
+    content: "Qoraalka Soomaaliga wuxuu leeyahay taariikh dheer...",
+    cover: "https://images.unsplash.com/photo-1456513080850-41cc740f2589?w=600&h=400&fit=crop",
+    published: true,
+  },
+];
+
+export const sponsors: Sponsor[] = [
+  { id: "1", name: "Premier Bank", logo: "" },
+  { id: "2", name: "Garowe Education Center", logo: "" },
+  { id: "3", name: "Somali Writers Association", logo: "" },
+];
+
+export const bookCategories = [
+  "All",
+  "Fiction",
+  "Biography",
+  "History",
+  "Self-Help",
+  "Poetry",
+];
+
+export const paymentChannels = [
+  { id: "evc", name: "EVC Plus", code: "*712*612345678*AMOUNT#" },
+  { id: "zaad", name: "ZAAD", code: "612345678" },
+  { id: "sahal", name: "Sahal", code: "612345678" },
+  { id: "premier", name: "Premier Bank", code: "Account: 1234567890" },
+];
