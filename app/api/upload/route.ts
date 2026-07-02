@@ -1,11 +1,17 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
-import { revalidatePath } from "next/cache";
+import { createClient } from "@supabase/supabase-js";
 
-const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
-const MAX_SIZE = 5 * 1024 * 1024;
-const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/jpg"];
+
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+}
 
 export async function POST(request: Request) {
   try {
@@ -28,16 +34,42 @@ export async function POST(request: Request) {
     }
 
     const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-    const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const filename = `uploads/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
-    await fs.writeFile(path.join(UPLOAD_DIR, filename), buffer);
+    // Try Supabase Storage first
+    const db = getSupabase();
+    if (db) {
+      // Create bucket if it doesn't exist
+      await db.storage.createBucket("media", { public: true }).catch(() => {});
 
-    revalidatePath("/", "layout");
+      const { error } = await db.storage
+        .from("media")
+        .upload(filename, buffer, {
+          contentType: file.type,
+          upsert: true,
+        });
 
-    return NextResponse.json({ url: `/uploads/${filename}` });
-  } catch {
+      if (!error) {
+        const { data } = db.storage.from("media").getPublicUrl(filename);
+        return NextResponse.json({ url: data.publicUrl });
+      }
+    }
+
+    // Fallback: save locally (dev only)
+    if (process.env.NODE_ENV !== "production") {
+      const { promises: fs } = await import("fs");
+      const path = await import("path");
+      const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+      const localFilename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      await fs.mkdir(UPLOAD_DIR, { recursive: true });
+      await fs.writeFile(path.join(UPLOAD_DIR, localFilename), buffer);
+      return NextResponse.json({ url: `/uploads/${localFilename}` });
+    }
+
+    return NextResponse.json({ error: "Upload failed - storage not configured" }, { status: 500 });
+  } catch (err) {
+    console.error("[upload] error:", err);
     return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
 }
