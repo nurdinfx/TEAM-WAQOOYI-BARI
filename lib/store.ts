@@ -33,7 +33,7 @@ async function readFromSupabase(): Promise<ContentData | null> {
   try {
     const [
       { data: settingsRows, error: se },
-      { data: leaders },
+      { data: leaders, error: le },
       { data: members },
       { data: books },
       { data: events },
@@ -55,7 +55,8 @@ async function readFromSupabase(): Promise<ContentData | null> {
       db.from("newsletter_subscribers").select("*").order("created_at"),
     ]);
 
-    if (se) return null;
+    // If leaders query errored (table doesn't exist), Supabase not set up yet
+    if (le) return null;
 
     const defaults = getDefaultContent();
     const sm: Record<string, unknown> = {};
@@ -77,7 +78,9 @@ async function readFromSupabase(): Promise<ContentData | null> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rows = (data: any[] | null) => data || [];
 
-    return enrichContent({
+    // NOTE: we use the Supabase data as-is (even if empty arrays)
+    // This means admin deletes ARE reflected on the website
+    return {
       settings,
       leaders: rows(leaders).map((r) => ({
         id: String(r.id), name: String(r.name), position: String(r.position),
@@ -119,7 +122,7 @@ async function readFromSupabase(): Promise<ContentData | null> {
       })),
       paymentChannels: defaults.paymentChannels,
       bookCategories:  defaults.bookCategories,
-    });
+    };
   } catch (err) {
     console.error("[store] Supabase read error:", err);
     return null;
@@ -185,15 +188,15 @@ async function writeToFs(content: ContentData): Promise<void> {
 
 // ─── Public API ───────────────────────────────────────────────────────────────
 export async function getContent(): Promise<ContentData> {
-  // 1. Supabase (production with keys)
+  // 1. Supabase (production with keys) — trust its data even if empty
   const fromDb = await readFromSupabase();
-  if (fromDb) return fromDb;
+  if (fromDb !== null) return fromDb;
 
   // 2. Filesystem (local dev)
   const fromFs = await readFromFs();
   if (fromFs) return enrichContent(deepMergeContent(getDefaultContent(), fromFs));
 
-  // 3. Hardcoded defaults
+  // 3. Hardcoded defaults (no Supabase, no filesystem)
   return enrichContent(getDefaultContent());
 }
 
